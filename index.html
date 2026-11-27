@@ -2550,12 +2550,12 @@ html body #location,html body #rsvp{padding-top:120px}
 
 /* ── D-itinerario · horas en Bodoni y estela de luz en bucle (sin scroll) ── */
 #itinerary .itn-pearl{display:none!important}
-#itinerary .itn-t.dx-hora{display:flex;align-items:baseline;gap:5px;font-family:'Bodoni Moda',serif;font-weight:500;font-size:30px;
+#itinerary .itn-t.dx-hora{display:flex;align-items:baseline;gap:5px;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:30px;
   line-height:1.08;letter-spacing:.005em;text-transform:none;color:var(--peach);font-variant-numeric:lining-nums;
   font-optical-sizing:auto;transition:color .6s ease,text-shadow .6s ease}
 #itinerary .itn-row[data-side="right"] .itn-t.dx-hora{justify-content:flex-end}
-#itinerary .dx-m{font-family:'Bodoni Moda',serif;font-style:italic;font-weight:500;font-size:16px;letter-spacing:.04em;color:#7a5010}
-#itinerary .itn-t.dx-tbd{font-family:'Bodoni Moda',serif;font-style:italic;font-weight:500;font-size:20px;letter-spacing:.02em;text-transform:none;line-height:1.15}
+#itinerary .dx-m{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:16px;letter-spacing:.04em;color:#7a5010}
+#itinerary .itn-t.dx-tbd{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:20px;letter-spacing:.02em;text-transform:none;line-height:1.15}
 #itinerary .itn-row.dx-lit .dx-hora{color:#5e3c08;text-shadow:0 0 14px rgba(243,221,176,.95),0 0 3px #fff}
 #itinerary .dx-track{stroke:#996515;stroke-opacity:.2;stroke-width:1;fill:none}
 #itinerary .dx-t1,#itinerary .dx-t2,#itinerary .dx-t3{fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:0}
@@ -2591,8 +2591,37 @@ html body #dresscode .dcx-h strong{display:inline !important;color:#11053b !impo
 
 /* nombre del invitado legible (sin script) */
 html body .rsvp-name-display{font-family:'Cormorant Garamond',serif !important;font-style:italic;font-weight:600;font-size:30px;line-height:1.3;color:#11053b}
+
+/* ═══ REVISIÓN 21st.dev · Background Beams, Border Beam, anillos de confirmación ═══ */
+#countdown{isolation:isolate}
+#countdown .fa-beams{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 18%,#000 82%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 18%,#000 82%,transparent 100%)}
+#countdown .fa-beams svg{position:absolute;inset:0;width:100%;height:100%}
+#countdown .fa-beams .bm{fill:none;stroke:rgba(17,5,59,.07);stroke-width:1}
+#countdown .fa-beams .bl{fill:none;stroke:url(#faBeamG);stroke-width:1.6;stroke-linecap:round;stroke-dasharray:.12 1;animation:faBeam var(--d,7s) linear infinite;animation-delay:var(--dl,0s);animation-play-state:paused}
+#countdown.dx-on .fa-beams .bl{animation-play-state:running}
+@keyframes faBeam{from{stroke-dashoffset:1.12}to{stroke-dashoffset:0}}
+#countdown > *:not(.fa-beams):not(.lp-seda):not(.ink-bg){position:relative;z-index:1}
+
+/* Border Beam: el filo de clima y regalos lleva un haz de oro que corre sin parar */
+.fa-bb > .dx-rim i{background:conic-gradient(from 0deg,transparent 0 250deg,rgba(153,101,21,0) 262deg,#996515 300deg,#F3DDB0 322deg,#FFFBEF 328deg,transparent 336deg)!important}
+.dx-on .fa-bb > .dx-rim i{animation-duration:5s!important}
+.fa-bb.fa-bb2 > .dx-rim i{animation-delay:-2.5s!important}
+
+/* Contador de confirmación en anillos de oro */
+.rc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.rc-ring{position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+.rc-ring svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.rc-track{fill:none;stroke:rgba(17,5,59,.12);stroke-width:2}
+.rc-prog{fill:none;stroke:url(#ringGoldFA);stroke-width:5;stroke-linecap:round;stroke-dasharray:326.73;stroke-dashoffset:326.73;transition:stroke-dashoffset .9s cubic-bezier(.34,1.2,.64,1)}
+.rc-c{position:relative;display:flex;flex-direction:column;align-items:center}
+.rc-c b{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;line-height:1;color:#11053b;font-variant-numeric:tabular-nums}
+.rc-c i{font-family:'Cormorant Garamond',serif;font-style:normal;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#1d1650;margin-top:2px}
+
+/* nombres sin script */
+html body .ft-nms{font-family:'Cormorant Garamond',serif !important;font-style:italic;font-weight:600;font-size:44px;line-height:1.2}
+html body .mn-panel .mn-ttl{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:34px}
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -2618,8 +2647,7 @@ html body .rsvp-name-display{font-family:'Cormorant Garamond',serif !important;f
   <div class="env-tap" id="envTap">Toca para abrir</div>
 </div>
 
-<!-- SCROLL PROGRESS -->
-<div id="prog"></div>
+
 
 
 <!-- TOAST -->
@@ -2635,19 +2663,6 @@ html body .rsvp-name-display{font-family:'Cormorant Garamond',serif !important;f
   <div class="h-ov"></div>
   <div class="h-frame"></div>
 
-  <!-- Ondas de viento superior e inferior -->
-  <div class="h-wave h-wave-top" aria-hidden="true">
-    <svg viewBox="0 0 1760 48" preserveAspectRatio="none">
-      <path d="M0,24 Q110,8 220,24 T440,24 T660,24 T880,24 T1100,24 T1320,24 T1540,24 T1760,24" fill="none" stroke="rgba(153,101,21,.38)" stroke-width="1"/>
-      <path d="M0,34 Q110,18 220,34 T440,34 T660,34 T880,34 T1100,34 T1320,34 T1540,34 T1760,34" fill="none" stroke="rgba(153,101,21,.18)" stroke-width=".8"/>
-    </svg>
-  </div>
-  <div class="h-wave h-wave-bot" aria-hidden="true">
-    <svg viewBox="0 0 1760 48" preserveAspectRatio="none">
-      <path d="M0,24 Q110,40 220,24 T440,24 T660,24 T880,24 T1100,24 T1320,24 T1540,24 T1760,24" fill="none" stroke="rgba(153,101,21,.38)" stroke-width="1"/>
-      <path d="M0,14 Q110,30 220,14 T440,14 T660,14 T880,14 T1100,14 T1320,14 T1540,14 T1760,14" fill="none" stroke="rgba(153,101,21,.18)" stroke-width=".8"/>
-    </svg>
-  </div>
 
   <!-- Anillos decorativos detrás del texto -->
   <div class="h-rings" aria-hidden="true">
@@ -2685,10 +2700,6 @@ html body .rsvp-name-display{font-family:'Cormorant Garamond',serif !important;f
     </div>
   </div>
 
-  <div class="h-scroll" id="hScroll">
-    <div class="h-scroll-line"></div>
-    <span>Desliza</span>
-  </div>
 </section>
 
 
@@ -2713,7 +2724,7 @@ html body .rsvp-name-display{font-family:'Cormorant Garamond',serif !important;f
 
 
 <!-- ═══════════════ 2. CUENTA REGRESIVA ══════════════ -->
-<section id="countdown">
+<section id="countdown" data-beams="1">
   <!-- ondas decorativas superiores -->
   <div class="cd-wave-top" aria-hidden="true">
     <svg viewBox="0 0 800 50" preserveAspectRatio="none">
@@ -3197,8 +3208,11 @@ html body .rsvp-name-display{font-family:'Cormorant Garamond',serif !important;f
       </div>
       <div class="rsvp-cd" id="rsvpCd" hidden>
         <span class="rsvp-cd-lbl">Tiempo para confirmar</span>
-        <div class="rsvp-cd-row">
-          <span><b id="rcD">--</b><i>días</i></span><span><b id="rcH">--</b><i>horas</i></span><span><b id="rcM">--</b><i>min</i></span><span><b id="rcS">--</b><i>seg</i></span>
+        <div class="rc-grid">
+          <div class="rc-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="rc-track" cx="60" cy="60" r="52"/><circle class="rc-prog" cx="60" cy="60" r="52" id="rcRD"/></svg><span class="rc-c"><b id="rcD">--</b><i>días</i></span></div>
+          <div class="rc-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="rc-track" cx="60" cy="60" r="52"/><circle class="rc-prog" cx="60" cy="60" r="52" id="rcRH"/></svg><span class="rc-c"><b id="rcH">--</b><i>horas</i></span></div>
+          <div class="rc-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="rc-track" cx="60" cy="60" r="52"/><circle class="rc-prog" cx="60" cy="60" r="52" id="rcRM"/></svg><span class="rc-c"><b id="rcM">--</b><i>min</i></span></div>
+          <div class="rc-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="rc-track" cx="60" cy="60" r="52"/><circle class="rc-prog" cx="60" cy="60" r="52" id="rcRS"/></svg><span class="rc-c"><b id="rcS">--</b><i>seg</i></span></div>
         </div>
       </div>
     </div>
@@ -3323,30 +3337,19 @@ function bootInvitation(){
   requestAnimationFrame(() => {
     {
       {
-        addSectionWaves();
-        addSectionMedals();
-        addCorners();
-        addWindOrns();
-        addAuras();
         heroAnim();
         spawnParticles();
         /* scrollAnims(); — el cliente pidió sin efectos al recorrer */
         countdown();
         setInterval(countdown, 1000);
-        ambientWind();
         initWheel();
-        initPetals();
       }
     }
   });
 }
 
 /* ── SCROLL PROGRESS ─────────────────────────────────── */
-window.addEventListener('scroll', () => {
-  const h = document.documentElement;
-  document.getElementById('prog').style.width =
-    (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
-}, { passive: true });
+/* barra de progreso quitada (sin efectos al recorrer) */
 
 /* ── HERO ANIMATIONS ─────────────────────────────────── */
 function heroAnim() {
@@ -3363,7 +3366,7 @@ function heroAnim() {
     .to('#hN2',    { yPercent: 0, duration: 1  }, .82)
     .to('#hLine',  { opacity: .7, duration: .6 }, 1.15)
     .to('#hDate',  { opacity: 1, duration: .7  }, 1.28)
-    .to('#hScroll',{ opacity: 1, duration: .5  }, 1.7);
+    ;
 
 }
 
@@ -4456,10 +4459,10 @@ function toast(msg) {
   function z(n){return String(n).padStart(2,'0');}
   function t(){
     var d=Math.max(0,fin-Date.now());
-    document.getElementById('rcD').textContent=z(Math.floor(d/864e5));
-    document.getElementById('rcH').textContent=z(Math.floor(d%864e5/36e5));
-    document.getElementById('rcM').textContent=z(Math.floor(d%36e5/6e4));
-    document.getElementById('rcS').textContent=z(Math.floor(d%6e4/1e3));
+    var D=Math.floor(d/864e5),H=Math.floor(d%864e5/36e5),M=Math.floor(d%36e5/6e4),S=Math.floor(d%6e4/1e3),C=2*Math.PI*52;
+    [['D',D,Math.min(D/120,1)],['H',H,H/24],['M',M,M/60],['S',S,S/60]].forEach(function(r){
+      document.getElementById('rc'+r[0]).textContent=z(r[1]);
+      document.getElementById('rcR'+r[0]).style.strokeDashoffset=(C*(1-r[2])).toFixed(2);});
   }
   t(); setInterval(t,1000);
 })();
@@ -4875,7 +4878,7 @@ window.LP_CONFIG={
     f.appendChild(b);padre.appendChild(f)}
   var nf=0;
 
-  (function initMedallones(){
+  (function initMedallones(){ return; /* quitados a pedido del cliente */
     var sitios=[['story','r'],['calendar','l'],['dresscode','r'],['footer','l']],hosts=[];
     sitios.forEach(function(s){var h=document.getElementById(s[0]);if(h)hosts.push([h,s[1]])});
     if(!hosts.length)return;
@@ -4986,6 +4989,25 @@ window.LP_CONFIG={
   })();
 })();
 
+</script>
+<script>
+/* ═══ REVISIÓN 21st.dev · Background Beams + Border Beam (nada ligado al scroll) ═══ */
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  var sec=document.getElementById('countdown');
+  if(sec){
+    var w=document.createElement('div');w.className='fa-beams';w.setAttribute('aria-hidden','true');
+    w.innerHTML='<svg viewBox="0 0 400 760" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="faBeamG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#996515" stop-opacity="0"/><stop offset=".45" stop-color="#C99A52"/><stop offset=".55" stop-color="#FFF3D6"/><stop offset="1" stop-color="#996515" stop-opacity="0"/></linearGradient><linearGradient id="ringGoldFA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6b4509"/><stop offset=".45" stop-color="#996515"/><stop offset=".6" stop-color="#F3DDB0"/><stop offset="1" stop-color="#996515"/></linearGradient></defs><g></g></svg>';
+    var g=w.querySelector('g');
+    for(var i=0;i<18;i++){var y0=-60+i*44,d='M-40 '+y0+' C 110 '+(y0+90)+', 220 '+(y0-30)+', 440 '+(y0+180+i*6);
+      var b=document.createElementNS(NS,'path');b.setAttribute('d',d);b.setAttribute('class','bm');g.appendChild(b);
+      if(i%2===0||i%5===0){var l=document.createElementNS(NS,'path');l.setAttribute('d',d);l.setAttribute('class','bl');l.setAttribute('pathLength','1');
+        l.style.setProperty('--d',(5+((i*37)%50)/10)+'s');l.style.setProperty('--dl',(-((i*53)%70)/10)+'s');g.appendChild(l)}}
+    sec.insertBefore(w,sec.firstChild);
+  }
+  var k=0;
+  document.querySelectorAll('.wx-card,#gifts .gf-card').forEach(function(c){c.classList.add('fa-bb');if(k++%2)c.classList.add('fa-bb2');});
+})();
 </script>
 </body>
 </html>
