@@ -2633,6 +2633,14 @@ html body .wheel-card img{transform:translateZ(0)}
 /* rendimiento: las animaciones CSS de una sección solo corren cuando está en pantalla (.dx-on lo pone un IntersectionObserver) */
 html body section:not(.dx-on) *,html body section:not(.dx-on) *::before,html body section:not(.dx-on) *::after,
 html body #footer:not(.dx-on) *,html body #footer:not(.dx-on) *::before,html body #footer:not(.dx-on) *::after{animation-play-state:paused!important}
+
+/* ═══ A PEDIDO DE LA CLIENTA · sin cositas que vuelan; papás y monitos del código de vestimenta quietos ═══ */
+.lp-caida,.hx-dust,.dx-dust,.h-particles,.meteor,#petals{display:none!important}
+#family .fam-grid,#family .fam-grid *,#family .fam-god,#family .fam-god *,
+#dresscode .dcx-fig,#dresscode .dcx-fig *,#dresscode .dcx-sw,#dresscode .dcx-sw *,#dresscode img{animation:none!important;transform:none!important}
+#family .fam-grid::before,#family .fam-grid::after,#family .fam-god::before,#family .fam-god::after{animation:none!important}
+#family .fam-col,#family .fam-god{transform:none!important}
+#family .dx-rim i,#family .dx-flare,#family .dx-sheen,#family .dx-halo{display:none!important}
 </style>
 </head>
 <body>
@@ -2650,7 +2658,7 @@ html body #footer:not(.dx-on) *,html body #footer:not(.dx-on) *::before,html bod
   <span class="vinyl-needle-fb" aria-hidden="true"></span>
 </button>
 
-<div id="petals" aria-hidden="true"></div>
+
 
 <!-- ═══════════════ SOBRE DE APERTURA ═══════════════ -->
 <div id="envelope-screen">
@@ -2704,7 +2712,7 @@ html body #footer:not(.dx-on) *,html body #footer:not(.dx-on) *::before,html bod
       <span class="h-name-wind-line"></span>
     </div>
 
-    <div class="fa-spk" aria-hidden="true"><div class="fa-hz"></div><canvas class="fa-dust"></canvas></div>
+    <div class="fa-spk" aria-hidden="true"><div class="fa-hz"></div></div>
     <div class="gline" style="margin-top:6px" id="hLine"></div>
 
     <div class="h-date-wrap" id="hDate">
@@ -3351,7 +3359,6 @@ function bootInvitation(){
     {
       {
         heroAnim();
-        spawnParticles();
         /* scrollAnims(); — el cliente pidió sin efectos al recorrer */
         countdown();
         setInterval(countdown, 1000);
@@ -4500,11 +4507,11 @@ function toast(msg) {
     for(var i=0;i<16;i++){var b=document.createElement('b');var z=2+Math.random()*2;
       b.style.cssText='left:'+(4+Math.random()*92)+'%;width:'+z+'px;height:'+z+'px;animation-duration:'+(14+Math.random()*12)+'s;animation-delay:'+(-Math.random()*24)+'s';d.appendChild(b);}
     var first=h.querySelector('.h-ov')||h.firstChild;
-    h.insertBefore(v,first);h.insertBefore(sw,first);h.insertBefore(g,first);h.appendChild(d);
+    h.insertBefore(v,first);h.insertBefore(sw,first);h.insertBefore(g,first);
   }
   /* levitación */
   var n=0;
-  ['.loc-card','.fam-col','.fam-god','.wx-card','#gifts .gf-card','.cal','.story-card'].forEach(function(q){
+  ['.loc-card','.wx-card','#gifts .gf-card','.cal','.story-card'].forEach(function(q){
     document.querySelectorAll(q).forEach(function(el){el.classList.add('lev','lev-'+((n++%4)+1));});
   });
   /* menú */
@@ -4650,14 +4657,12 @@ function toast(msg) {
   /* portada: destello con fantasmas, caída temática (pétalos de la paleta + hoja de oro) y niebla abajo */
   if(hero){
     var fl=el('div','lp-flare',{'data-x':'20%','data-y':'17%','data-s':'1'});hero.appendChild(fl);
-    hero.insertBefore(el('canvas','lp-caida',{'data-sprites':SPR,'data-n':'10'}),hero.firstChild);
     hero.insertBefore(el('div','lp-niebla'),hero.firstChild);
     /* diamantes en los nombres y cascada letra por letra (fondo claro) */
     hero.querySelectorAll('.h-name-wrap').forEach(function(w){w.classList.add('lp-glints')});
     ['hN1','hN2'].forEach(function(id){var n=document.getElementById(id);if(n)n.classList.add('lp-cascada','lp-claro')});
   }
   if(pie){
-    pie.insertBefore(el('canvas','lp-caida',{'data-sprites':SPR,'data-n':'8'}),pie.firstChild);
     pie.insertBefore(el('div','lp-niebla'),pie.firstChild);
     var fn=pie.querySelector('.ft-nms');if(fn)fn.classList.add('lp-cascada','lp-claro');
   }
@@ -4948,10 +4953,7 @@ window.LP_CONFIG={
       while(t.firstChild)w.appendChild(t.firstChild);t.appendChild(w);
       flare(w,'7%','30%',.42,false,nf++);flare(w,'95%','34%',1,true,nf++);
       var sec=t.closest('section');
-      if(sec&&principales[sec.id]){var d=document.createElement('span');d.className='dx-dust';d.setAttribute('aria-hidden','true');
-        for(var i=0;i<8;i++){var p=document.createElement('i');
-          p.style.cssText='left:'+(4+Math.random()*92).toFixed(1)+'%;top:'+(Math.random()*100).toFixed(1)+'%;--t:'+(2.8+Math.random()*2.4).toFixed(2)+'s;--dl:'+(-Math.random()*5).toFixed(2)+'s';d.appendChild(p)}
-        w.appendChild(d)}
+      
     });
     var amp=document.getElementById('hAmp');if(amp){amp.classList.add('dx-foil');amp.style.setProperty('--fd','-2.4s')}
     document.querySelectorAll('#countdown .cd-num').forEach(function(n,k){n.classList.add('dx-foil');n.style.setProperty('--fd',(-k*1.3-.5)+'s')});
