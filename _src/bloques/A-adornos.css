@@ -1,0 +1,30 @@
+/* INSERTAR: antes de </style> (después de A-tintas.css) */
+/* ── ADORNOS DIFUMINADOS · flores de la paleta, siempre por detrás y fuera de foco ──
+   El desenfoque está horneado en el WebP (alfa suavizado); no hay filter:blur.
+   Requiere class="ink-sec" (isolation:isolate) en la sección para que z-index:-1 quede dentro de ella. */
+.ador{position:absolute;z-index:-1;pointer-events:none;width:58%;line-height:0}
+.ador > img{display:block;width:100%;height:auto;opacity:.26;
+  animation:adorFloat 12s ease-in-out infinite;animation-delay:var(--dl,0s)}
+.ador--flip{transform:scaleX(-1)}
+.ador--vflip{transform:scaleY(-1)}
+.ador--l{left:-12%}
+.ador--r{right:-12%}
+.ador--corner{width:52%}
+.ador--corner.ador--l{left:0;top:0}
+.ador--corner.ador--r{right:0;bottom:0}
+@keyframes adorFloat{
+  0%,100%{transform:translateY(-8px);opacity:.21}
+  50%    {transform:translateY(8px);opacity:.31}
+}
+/* posiciones: lados alternados, nunca dos en la misma esquina visible */
+#story .ador{top:6%;--dl:-2s}
+#location .ador{bottom:4%;width:62%;--dl:-7s}
+#itinerary .ador{--dl:-4s}
+#album .ador{top:38%;width:54%;--dl:-9s}
+#dresscode .ador{bottom:8%;width:60%;--dl:-5s}
+#family .ador{--dl:-11s}
+#rsvp .ador{top:3%;width:56%;--dl:-8s}
+#location .ador > img{animation-duration:14s}
+#album .ador > img{animation-duration:10s}
+#family .ador > img{animation-duration:13s}
+@media (prefers-reduced-motion:reduce){.ador > img{animation:none}}

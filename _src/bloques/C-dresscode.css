@@ -1,0 +1,55 @@
+/* INSERTAR: antes de </style>, al final (el CSS viejo .dc-* puede quedarse: ya no se usa) */
+/* ── DRESS CODE · figuras que se mecen + bolitas con glow dorado, sin scroll ── */
+#dresscode .dcx-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:21px;color:var(--cream);text-align:center;margin:14px 0 6px}
+#dresscode .dcx-figs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:22px auto 34px;max-width:340px;position:relative}
+#dresscode .dcx-fig{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;padding:8px 6px}
+#dresscode .dcx-fig::before{
+  content:'';position:absolute;top:6px;left:50%;width:140%;height:230px;transform:translateX(-50%);border-radius:50%;pointer-events:none;
+  background:radial-gradient(ellipse at center,rgba(247,231,206,.9) 0%,rgba(153,101,21,.2) 52%,rgba(153,101,21,0) 76%);filter:blur(16px);z-index:0;
+}
+#dresscode .dcx-fig img{
+  display:block;height:215px;width:auto;max-width:100%;object-fit:contain;position:relative;z-index:1;
+  filter:drop-shadow(0 6px 16px rgba(17,5,59,.18));
+  transform-origin:50% 100%;animation:dcxSway 5.2s ease-in-out infinite;will-change:transform;
+}
+#dresscode .dcx-fig:nth-child(2) img{animation-delay:-2.6s}
+@keyframes dcxSway{0%,100%{transform:rotate(-2.2deg)}50%{transform:rotate(2.2deg)}}
+#dresscode .dcx-fig-ttl{position:relative;z-index:1;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px;letter-spacing:.28em;text-transform:uppercase;color:var(--peach);line-height:1;margin-top:8px;text-align:center}
+#dresscode .dcx-fig-de{position:relative;z-index:1;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:17px;color:var(--cream);text-align:center}
+
+#dresscode .dcx-h{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px;letter-spacing:.3em;text-transform:uppercase;color:var(--peach);text-align:center;margin:0 auto 22px;
+}
+#dresscode .dcx-h strong{color:#B4271A;font-weight:700}
+#dresscode .dcx-grid{display:grid;grid-template-columns:repeat(3,minmax(0,92px));justify-content:center;gap:22px 18px;max-width:340px;margin:0 auto 20px}
+#dresscode .dcx-sw{display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;animation:dcxFloat 5s ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes dcxFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+#dresscode .dcx-glow{
+  position:absolute;top:50%;left:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(153,101,21,.55) 0%,rgba(233,200,130,.28) 45%,rgba(153,101,21,0) 72%);
+  animation:dcxGlow 3.4s ease-in-out infinite;animation-delay:var(--d,0s);
+}
+/* el glow queda a la altura de la bolita, no del nombre */
+#dresscode .dcx-glow{top:23px;margin-top:-32px}
+@keyframes dcxGlow{0%,100%{transform:scale(.8);opacity:.35}50%{transform:scale(1.18);opacity:.9}}
+#dresscode .dcx-dot{
+  position:relative;display:block;width:46px;height:46px;border-radius:50%;overflow:hidden;background:var(--c);
+  box-shadow:0 3px 12px rgba(17,5,59,.18),inset 0 1px 2px rgba(255,255,255,.35),inset 0 0 0 1px rgba(153,101,21,.28);
+}
+#dresscode .dcx-dot.lt{box-shadow:0 3px 12px rgba(17,5,59,.14),inset 0 0 0 1.5px rgba(153,101,21,.7)}
+#dresscode .dcx-dot::after{
+  content:'';position:absolute;top:-30%;bottom:-30%;left:-60%;width:50%;transform:translateX(-120%) skewX(-24deg);
+  background:linear-gradient(90deg,rgba(255,236,190,0),rgba(255,236,190,.85),rgba(255,236,190,0));
+  animation:dcxSweep 4.2s ease-in-out infinite;animation-delay:var(--d,0s);
+}
+@keyframes dcxSweep{0%,55%{transform:translateX(-120%) skewX(-24deg)}100%{transform:translateX(420%) skewX(-24deg)}}
+#dresscode .dcx-name{position:relative;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px;line-height:1.25;color:var(--cream);text-align:center}
+#dresscode .dcx-note{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:18px;line-height:1.7;color:var(--cream);text-align:center;max-width:320px;margin:8px auto 24px}
+#dresscode .dcx-shoe{max-width:330px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:18px 20px;border:1px solid rgba(153,101,21,.3);border-radius:14px;background:#fff;color:var(--peach);text-align:left}
+#dresscode .dcx-shoe svg{flex-shrink:0}
+#dresscode .dcx-shoe p{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:500;line-height:1.55;color:var(--cream)}
+@media (prefers-reduced-motion:reduce){
+  #dresscode .dcx-fig img,#dresscode .dcx-sw,#dresscode .dcx-glow,#dresscode .dcx-dot::after{animation:none!important}
+  #dresscode .dcx-glow{opacity:.5}
+}

@@ -1,0 +1,46 @@
+/* INSERTAR: antes de </style>, al final (después del bloque "VINILO CON BRAZO" para que gane; las reglas viejas .vinyl/.vinyl-label/.vinyl-wrap/.vinyl-arm quedan sin uso) */
+/* ── VINILO + AGUJA · negro con surcos, reflejo fijo, centro liso, aguja metálica ── */
+#musicBtn.music-btn{
+  position:fixed;right:22px;bottom:max(24px,env(safe-area-inset-bottom));z-index:999;
+  width:74px;height:74px;min-width:44px;min-height:44px;padding:0;border:0;border-radius:50%;
+  background:transparent;cursor:pointer;overflow:visible;filter:none;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  box-shadow:0 8px 22px rgba(17,5,59,.4),0 0 0 2px rgba(153,101,21,.6),0 0 0 5px rgba(153,101,21,.14);
+  transition:transform .2s ease;
+}
+#musicBtn.music-btn:active{transform:scale(.92)}
+#musicBtn.music-btn:focus-visible{outline:2px solid #996515;outline-offset:6px}
+#musicBtn.music-btn::before{display:none}
+#musicBtn .vinyl-halo{position:absolute;inset:-6px;border-radius:50%;pointer-events:none;border:1px solid rgba(153,101,21,.55);opacity:.35;animation:vinylHalo 3.2s ease-in-out infinite}
+#musicBtn.is-playing .vinyl-halo{animation-duration:1.8s}
+@keyframes vinylHalo{0%,100%{transform:scale(1);opacity:.35}50%{transform:scale(1.16);opacity:.06}}
+/* el disco gira; el reflejo queda fijo encima */
+#musicBtn .vinyl-spin{position:absolute;inset:0;border-radius:50%;display:block;animation:vinylSpin 1.8s linear infinite;animation-play-state:paused}
+#musicBtn.is-playing .vinyl-spin,#musicBtn.is-braking .vinyl-spin{animation-play-state:running}
+@keyframes vinylSpin{to{transform:rotate(360deg)}}
+#musicBtn .vinyl-disc{display:block;position:relative;width:100%;height:100%;border-radius:50%;
+  background:
+    radial-gradient(circle,#0b0b0d 0 3.2%,#C9A25A 3.3% 4.6%,#1a1a1e 4.8% 15%,transparent 15.2%),
+    repeating-radial-gradient(circle,transparent 0 1.4px,rgba(255,255,255,.07) 1.5px 2px,transparent 2.1px 3.3px),
+    radial-gradient(circle at 50% 50%,#1b1b20 0%,#101013 60%,#0a0a0c 100%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 0 0 12px rgba(0,0,0,.6)}
+/* centro liso con orificio: sin etiqueta, iniciales ni texto */
+#musicBtn .vinyl-disc::after{content:'';position:absolute;left:50%;top:50%;width:30%;height:30%;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,#0a0a0c 0 12%,#F7E7CE 13% 16%,#C9A25A 17%,#996515 100%);
+  box-shadow:0 0 0 1px rgba(255,255,255,.14),inset 0 0 4px rgba(0,0,0,.5)}
+#musicBtn .vinyl-shine{position:absolute;inset:0;border-radius:50%;pointer-events:none;
+  background:conic-gradient(from 20deg,transparent 0 8%,rgba(255,255,255,.22) 12%,transparent 18% 58%,rgba(255,255,255,.16) 62%,transparent 68% 100%)}
+/* aguja = assets/aguja.webp, pivote arriba a la derecha */
+#musicBtn{--needle-w:38px;--needle-pivot:80% 9%;--needle-x:-8px;--needle-y:-12px}
+#musicBtn .vinyl-needle,#musicBtn .vinyl-needle-fb{
+  position:absolute;right:var(--needle-x);top:var(--needle-y);width:var(--needle-w);height:auto;
+  transform-origin:var(--needle-pivot);transform:rotate(-30deg);pointer-events:none;z-index:2;
+  transition:transform .7s cubic-bezier(.2,.7,.2,1);filter:drop-shadow(0 3px 3px rgba(0,0,0,.35))}
+#musicBtn.is-playing .vinyl-needle,#musicBtn.is-playing .vinyl-needle-fb{transform:rotate(-12deg);animation:vinylNeedleSway 4.2s ease-in-out .8s infinite}
+@keyframes vinylNeedleSway{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(-10.6deg)}}
+#musicBtn .vinyl-needle-fb{display:none;height:46px;width:6px;right:6px;top:-8px;border-radius:3px;background:linear-gradient(180deg,#F7E7CE,#C9A25A 45%,#996515);transform-origin:50% 6%}
+#musicBtn.no-needle-img .vinyl-needle{display:none}
+#musicBtn.no-needle-img .vinyl-needle-fb{display:block}
+@media (prefers-reduced-motion:reduce){
+  #musicBtn .vinyl-spin,#musicBtn .vinyl-halo,#musicBtn.is-playing .vinyl-needle,#musicBtn.is-playing .vinyl-needle-fb{animation:none!important}
+}

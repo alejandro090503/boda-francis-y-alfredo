@@ -1,0 +1,54 @@
+/* INSERTAR: antes de </style>, al final (el CSS viejo .tl-* / .timeline puede quedarse: ya no se usa) */
+/* ── ITINERARIO · camino en S completo y estático, luz ambiental en bucle ── */
+#itinerary .itn-wrap{margin-top:44px;position:relative;padding:18px 0 6px;min-height:400px}
+#itinerary .itn-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible}
+#itinerary .itn-bg{stroke:rgba(153,101,21,.28);stroke-width:1;fill:none;stroke-dasharray:2 5;stroke-linecap:round}
+#itinerary .itn-halo{stroke:#996515;stroke-width:11;stroke-linecap:round;stroke-linejoin:round;fill:none;opacity:.16}
+#itinerary .itn-beam{stroke:#F7E7CE;stroke-width:5.5;stroke-linecap:round;stroke-linejoin:round;fill:none;opacity:.5}
+#itinerary .itn-path{stroke:url(#itnGrad);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;fill:none}
+#itinerary .itn-core{stroke:rgba(255,250,232,.92);stroke-width:.85;stroke-linecap:round;stroke-linejoin:round;fill:none;opacity:.85}
+#itinerary .itn-pearl{
+  position:absolute;left:0;top:0;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;
+  background:radial-gradient(circle at 38% 36%,#fff 0%,#fff8e0 38%,rgba(247,231,206,.12) 100%);
+  box-shadow:0 0 10px 4px rgba(255,248,224,.9),0 0 22px 8px rgba(153,101,21,.45),0 0 42px 14px rgba(153,101,21,.16);
+  opacity:0;pointer-events:none;z-index:3;will-change:transform,opacity;
+}
+#itinerary .itn-row{position:relative;z-index:1;min-height:158px;display:flex;align-items:center;margin-bottom:14px}
+#itinerary .itn-row[data-side="left"]{padding-left:58px;padding-right:44%;justify-content:flex-start;text-align:left}
+#itinerary .itn-row[data-side="right"]{padding-right:58px;padding-left:44%;justify-content:flex-end;text-align:right}
+#itinerary .itn-inner{max-width:168px;display:flex;flex-direction:column;gap:2px;position:relative;padding:6px 4px}
+#itinerary .itn-inner::before{
+  content:'';position:absolute;inset:-6px -14px;z-index:-1;border-radius:16px;pointer-events:none;
+  background:radial-gradient(ellipse at center,rgba(255,255,255,.92) 0%,rgba(255,255,255,.55) 55%,rgba(255,255,255,0) 100%);
+}
+#itinerary .itn-t{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--peach);letter-spacing:2.5px;text-transform:uppercase;line-height:1}
+#itinerary .itn-ev{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;color:var(--cream);line-height:1.22;margin-top:4px}
+#itinerary .itn-de{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:500;color:var(--cream);opacity:.9;line-height:1.55;margin-top:3px}
+/* punto visible desde el inicio (nada depende del scroll) */
+#itinerary .itn-dot{
+  position:absolute;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;
+  background:var(--peach);border:1.5px solid var(--peach);z-index:2;
+  box-shadow:0 0 0 3px rgba(255,255,255,.9),0 0 12px rgba(153,101,21,.55),0 0 24px rgba(153,101,21,.3);
+}
+#itinerary .itn-row[data-side="left"]  .itn-dot{left:22px}
+#itinerary .itn-row[data-side="right"] .itn-dot{right:22px}
+#itinerary .itn-orn{
+  position:absolute;top:50%;width:40px;height:40px;margin-top:-20px;border-radius:50%;
+  border:1px dashed rgba(153,101,21,.35);pointer-events:none;z-index:1;
+  animation:itnOrn 26s linear infinite;
+}
+#itinerary .itn-row[data-side="left"]  .itn-orn{left:9px}
+#itinerary .itn-row[data-side="right"] .itn-orn{right:9px}
+@keyframes itnOrn{to{transform:rotate(360deg)}}
+#itinerary .itn-pulse{
+  position:absolute;top:50%;width:18px;height:18px;margin-top:-9px;border-radius:50%;
+  border:1.5px solid var(--peach);opacity:0;pointer-events:none;z-index:1;
+  animation:itnPulse 3.6s ease-out infinite;animation-delay:calc(var(--i) * .7s);
+}
+#itinerary .itn-row[data-side="left"]  .itn-pulse{left:20px}
+#itinerary .itn-row[data-side="right"] .itn-pulse{right:20px}
+@keyframes itnPulse{0%{transform:scale(1);opacity:.7}70%,100%{transform:scale(3);opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  #itinerary .itn-orn,#itinerary .itn-pulse{animation:none!important}
+  #itinerary .itn-pearl{display:none}
+}
