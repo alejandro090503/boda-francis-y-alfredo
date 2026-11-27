@@ -1274,7 +1274,7 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
   pointer-events:none;
 }
 @keyframes glineSweep{
-  0%{left:-100px;opacity:0}20%{opacity:1}100%{left:calc(100% + 100px);opacity:0}
+  0%{transform:translateX(0);opacity:0}20%{opacity:1}100%{transform:translateX(180px);opacity:0}
 }
 
 /* ── HERO FRAME VIENTO ────────────────────────────────── */
@@ -2624,6 +2624,15 @@ html body .ink-bg{top:0 !important;bottom:0 !important;-webkit-mask-image:none !
 .fa-jf{position:absolute;left:0;right:0;pointer-events:none;z-index:-1}
 .fa-jf--top{top:0}.fa-jf--bot{bottom:0}
 #hero .fa-jf{z-index:1}
+
+/* carrusel: menos costo de pintado en 3D (sombra ligera, capa propia del aro) */
+html body .wheel-ring{will-change:transform}
+html body .wheel-card{box-shadow:0 8px 18px rgba(17,5,59,.16);-webkit-backface-visibility:hidden;backface-visibility:visible;contain:paint}
+html body .wheel-card img{transform:translateZ(0)}
+
+/* rendimiento: las animaciones CSS de una sección solo corren cuando está en pantalla (.dx-on lo pone un IntersectionObserver) */
+html body section:not(.dx-on) *,html body section:not(.dx-on) *::before,html body section:not(.dx-on) *::after,
+html body #footer:not(.dx-on) *,html body #footer:not(.dx-on) *::before,html body #footer:not(.dx-on) *::after{animation-play-state:paused!important}
 </style>
 </head>
 <body>
@@ -4037,61 +4046,68 @@ function initEnvelopeRain(){
 
 /* ── GALERÍA · RUEDA 3D ──────────────────────────────── */
 function initWheel(){
-  var ring=document.getElementById('wheel-ring');
+  var ring=document.getElementById('wheel-ring'),scene=document.getElementById('wheel-scene');
   if(!ring)return;
-  var cards=ring.querySelectorAll('.wheel-card');
-  var n=cards.length;
+  var cards=ring.querySelectorAll('.wheel-card'),n=cards.length;
   if(!n)return;
-
-  /* loading="lazy" nunca dispara dentro de tarjetas con translateZ:
-     resolvemos el data-src a mano */
+  /* loading="lazy" nunca dispara dentro de tarjetas con translateZ: resolvemos el data-src a mano */
   cards.forEach(function(card){
     var im=card.querySelector('img[data-src]');
-    if(im){im.src=im.getAttribute('data-src');im.removeAttribute('data-src');}
+    if(im){im.decoding='async';im.src=im.getAttribute('data-src');im.removeAttribute('data-src');}
   });
-
-  /* radio = apotema del polígono regular cuyos lados son las tarjetas */
   var cardW=cards[0].offsetWidth||192;
-  var radius=Math.max(200, Math.round((cardW*1.18)/(2*Math.tan(Math.PI/n))));
-  cards.forEach(function(card,i){
-    card.style.transform='rotateY('+(360/n*i)+'deg) translateZ('+radius+'px)';
-  });
+  var radius=Math.max(200,Math.round((cardW*1.18)/(2*Math.tan(Math.PI/n))));
+  cards.forEach(function(card,i){card.style.transform='rotateY('+(360/n*i)+'deg) translateZ('+radius+'px)';});
 
-  var rot=0,vel=0,isDrag=false,startX=0,startRot=0,lastX=0,rafId=null,auto=true;
-  function setRot(){gsap.set(ring,{rotateY:rot});}
-  setRot();
-  function inertia(){
-    if(isDrag)return;
-    rot+=vel;vel*=0.94;setRot();
-    if(Math.abs(vel)>0.05)rafId=requestAnimationFrame(inertia);
+  /* un solo bucle por tiempo real (no por cuadro): giro parejo aunque el celular baje de fps.
+     Se detiene fuera de pantalla y con la pestaña oculta. */
+  var rot=0,vel=0,isDrag=false,startX=0,startRot=0,lastX=0,lastT=0,auto=true,vis=false,running=false,prev=0;
+  var AUTO=7;                       /* grados por segundo */
+  function paint(){ring.style.transform='translate3d(0,0,0) rotateY('+rot.toFixed(2)+'deg)';}
+  paint();
+  function frame(t){
+    if(!running)return;
+    var dt=prev?Math.min(.05,(t-prev)/1000):0; prev=t;
+    if(!isDrag){
+      if(Math.abs(vel)>.5){rot+=vel*dt;vel*=Math.pow(.06,dt);}          /* inercia que frena suave */
+      else{vel=0;if(auto)rot+=AUTO*dt;}
+    }
+    paint();
+    requestAnimationFrame(frame);
   }
-  function down(x){auto=false;isDrag=true;ring.classList.add('dragging');startX=x;lastX=x;startRot=rot;vel=0;if(rafId)cancelAnimationFrame(rafId);}
-  function move(x){if(!isDrag)return;rot=startRot+(x-startX)*0.45;vel=(x-lastX)*0.5;lastX=x;setRot();}
-  function up(){if(!isDrag)return;isDrag=false;ring.classList.remove('dragging');rafId=requestAnimationFrame(inertia);}
+  function start(){if(running||!vis||document.hidden)return;running=true;prev=0;requestAnimationFrame(frame);}
+  function stop(){running=false;}
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){vis=es[0].isIntersecting;vis?start():stop();},{rootMargin:'100px 0px'}).observe(scene||ring);
+  }else{vis=true;start();}
+  document.addEventListener('visibilitychange',function(){document.hidden?stop():start();});
+
+  var resume=null;
+  function down(x){auto=false;clearTimeout(resume);isDrag=true;ring.classList.add('dragging');startX=x;lastX=x;lastT=performance.now();startRot=rot;vel=0;}
+  function move(x){if(!isDrag)return;var now=performance.now(),dt=Math.max(1,now-lastT);
+    rot=startRot+(x-startX)*.45;vel=vel*.6+((x-lastX)*.45/dt*1000)*.4;lastX=x;lastT=now;}
+  function up(){if(!isDrag)return;isDrag=false;ring.classList.remove('dragging');
+    if(performance.now()-lastT>90)vel=0;                 /* soltó quieto: sin latigazo */
+    vel=Math.max(-420,Math.min(420,vel));
+    resume=setTimeout(function(){auto=true;},4000);}     /* vuelve a girar solo tras 4 s */
   ring.addEventListener('mousedown',function(e){e.preventDefault();down(e.clientX);});
   window.addEventListener('mousemove',function(e){move(e.clientX);});
   window.addEventListener('mouseup',up);
-  var startY=0, axis=null;
-  ring.addEventListener('touchstart',function(e){
-    startY=e.touches[0].clientY; axis=null;
-    down(e.touches[0].clientX);
-  },{passive:true});
-  /* passive:false para poder cancelar el scroll lateral de la página:
-     si el gesto es claramente horizontal lo consume la rueda */
+  var startY=0,axis=null;
+  ring.addEventListener('touchstart',function(e){startY=e.touches[0].clientY;axis=null;down(e.touches[0].clientX);},{passive:true});
   ring.addEventListener('touchmove',function(e){
-    if(!isDrag) return;
+    if(!isDrag)return;
     var t=e.touches[0];
     if(axis===null){
-      var dx=Math.abs(t.clientX-startX), dy=Math.abs(t.clientY-startY);
-      if(dx<6 && dy<6) return;
-      axis = dx > dy ? 'x' : 'y';
-      if(axis==='y'){ up(); return; }   /* gesto vertical → deja pasar el scroll */
+      var dx=Math.abs(t.clientX-startX),dy=Math.abs(t.clientY-startY);
+      if(dx<6&&dy<6)return;
+      axis=dx>dy?'x':'y';
+      if(axis==='y'){isDrag=false;ring.classList.remove('dragging');resume=setTimeout(function(){auto=true;},1500);return;}
     }
-    if(axis==='x'){ e.preventDefault(); move(t.clientX); }
+    if(axis==='x'){e.preventDefault();move(t.clientX);}
   },{passive:false});
   ring.addEventListener('touchend',function(){axis=null;up();});
   ring.addEventListener('touchcancel',function(){axis=null;up();});
-  (function spin(){ if(auto&&!isDrag){rot+=0.12;setRot();} requestAnimationFrame(spin); })();
 }
 
 /* ── INYECTAR ONDAS DECORATIVAS A SECCIONES ─────────── */
