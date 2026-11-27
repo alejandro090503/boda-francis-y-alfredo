@@ -2593,20 +2593,6 @@ html body #dresscode .dcx-h strong{display:inline !important;color:#11053b !impo
 html body .rsvp-name-display{font-family:'Cormorant Garamond',serif !important;font-style:italic;font-weight:600;font-size:30px;line-height:1.3;color:#11053b}
 
 /* ═══ REVISIÓN 21st.dev · Background Beams, Border Beam, anillos de confirmación ═══ */
-#countdown{isolation:isolate}
-#countdown .fa-beams{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 18%,#000 82%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 18%,#000 82%,transparent 100%)}
-#countdown .fa-beams svg{position:absolute;inset:0;width:100%;height:100%}
-#countdown .fa-beams .bm{fill:none;stroke:rgba(17,5,59,.07);stroke-width:1}
-#countdown .fa-beams .bl{fill:none;stroke:url(#faBeamG);stroke-width:1.6;stroke-linecap:round;stroke-dasharray:.12 1;animation:faBeam var(--d,7s) linear infinite;animation-delay:var(--dl,0s);animation-play-state:paused}
-#countdown.dx-on .fa-beams .bl{animation-play-state:running}
-@keyframes faBeam{from{stroke-dashoffset:1.12}to{stroke-dashoffset:0}}
-#countdown > *:not(.fa-beams):not(.lp-seda):not(.ink-bg){position:relative;z-index:1}
-
-/* Border Beam: el filo de clima y regalos lleva un haz de oro que corre sin parar */
-.fa-bb > .dx-rim i{background:conic-gradient(from 0deg,transparent 0 250deg,rgba(153,101,21,0) 262deg,#996515 300deg,#F3DDB0 322deg,#FFFBEF 328deg,transparent 336deg)!important}
-.dx-on .fa-bb > .dx-rim i{animation-duration:5s!important}
-.fa-bb.fa-bb2 > .dx-rim i{animation-delay:-2.5s!important}
 
 /* Contador de confirmación en anillos de oro */
 .rc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
@@ -2621,6 +2607,14 @@ html body .rsvp-name-display{font-family:'Cormorant Garamond',serif !important;f
 /* nombres sin script */
 html body .ft-nms{font-family:'Cormorant Garamond',serif !important;font-style:italic;font-weight:600;font-size:44px;line-height:1.2}
 html body .mn-panel .mn-ttl{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:34px}
+
+/* ═══ 29 · Polvo de estrellas bajo los nombres (línea de luz + polvo dorado, sin scroll) ═══ */
+.fa-spk{position:relative;width:100%;max-width:300px;height:86px;margin:14px auto 0;pointer-events:none}
+.fa-spk .fa-hz{position:absolute;left:50%;top:0;transform:translateX(-50%);width:86%;height:1.5px;z-index:2;
+  background:linear-gradient(90deg,transparent,#996515 22%,#F3DDB0 50%,#996515 78%,transparent);box-shadow:0 0 14px 2px rgba(201,154,82,.45)}
+.fa-spk .fa-hz::after{content:"";position:absolute;left:36%;right:36%;top:-3px;height:7px;background:radial-gradient(closest-side,#FFF6E2,transparent);filter:blur(3px)}
+.fa-spk canvas{position:absolute;left:0;top:1px;width:100%;height:85px;
+  -webkit-mask-image:radial-gradient(62% 100% at 50% 0%,#000 25%,transparent 100%);mask-image:radial-gradient(62% 100% at 50% 0%,#000 25%,transparent 100%)}
 </style>
 </head>
 <body>
@@ -2692,7 +2686,8 @@ html body .mn-panel .mn-ttl{font-family:'Cormorant Garamond',serif;font-style:it
       <span class="h-name-wind-line"></span>
     </div>
 
-    <div class="gline" style="margin-top:32px" id="hLine"></div>
+    <div class="fa-spk" aria-hidden="true"><div class="fa-hz"></div><canvas class="fa-dust"></canvas></div>
+    <div class="gline" style="margin-top:6px" id="hLine"></div>
 
     <div class="h-date-wrap" id="hDate">
       <p class="h-date">25 · Enero · 2027</p>
@@ -2724,7 +2719,7 @@ html body .mn-panel .mn-ttl{font-family:'Cormorant Garamond',serif;font-style:it
 
 
 <!-- ═══════════════ 2. CUENTA REGRESIVA ══════════════ -->
-<section id="countdown" data-beams="1">
+<section id="countdown">
   <!-- ondas decorativas superiores -->
   <div class="cd-wave-top" aria-hidden="true">
     <svg viewBox="0 0 800 50" preserveAspectRatio="none">
@@ -4990,23 +4985,24 @@ window.LP_CONFIG={
 })();
 
 </script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="ringGoldFA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6b4509"/><stop offset=".45" stop-color="#996515"/><stop offset=".6" stop-color="#F3DDB0"/><stop offset="1" stop-color="#996515"/></linearGradient></defs></svg>
 <script>
-/* ═══ REVISIÓN 21st.dev · Background Beams + Border Beam (nada ligado al scroll) ═══ */
+/* 29 · polvo de estrellas: partículas doradas que suben y titilan bajo la línea de luz (sin scroll) */
 (function(){
-  var NS='http://www.w3.org/2000/svg';
-  var sec=document.getElementById('countdown');
-  if(sec){
-    var w=document.createElement('div');w.className='fa-beams';w.setAttribute('aria-hidden','true');
-    w.innerHTML='<svg viewBox="0 0 400 760" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="faBeamG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#996515" stop-opacity="0"/><stop offset=".45" stop-color="#C99A52"/><stop offset=".55" stop-color="#FFF3D6"/><stop offset="1" stop-color="#996515" stop-opacity="0"/></linearGradient><linearGradient id="ringGoldFA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6b4509"/><stop offset=".45" stop-color="#996515"/><stop offset=".6" stop-color="#F3DDB0"/><stop offset="1" stop-color="#996515"/></linearGradient></defs><g></g></svg>';
-    var g=w.querySelector('g');
-    for(var i=0;i<18;i++){var y0=-60+i*44,d='M-40 '+y0+' C 110 '+(y0+90)+', 220 '+(y0-30)+', 440 '+(y0+180+i*6);
-      var b=document.createElementNS(NS,'path');b.setAttribute('d',d);b.setAttribute('class','bm');g.appendChild(b);
-      if(i%2===0||i%5===0){var l=document.createElementNS(NS,'path');l.setAttribute('d',d);l.setAttribute('class','bl');l.setAttribute('pathLength','1');
-        l.style.setProperty('--d',(5+((i*37)%50)/10)+'s');l.style.setProperty('--dl',(-((i*53)%70)/10)+'s');g.appendChild(l)}}
-    sec.insertBefore(w,sec.firstChild);
-  }
-  var k=0;
-  document.querySelectorAll('.wx-card,#gifts .gf-card').forEach(function(c){c.classList.add('fa-bb');if(k++%2)c.classList.add('fa-bb2');});
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('canvas.fa-dust').forEach(function(cv){
+    var g=cv.getContext('2d'),dpr=Math.min(2,devicePixelRatio||1),W,H,P=[],on=false;
+    function size(){var r=cv.getBoundingClientRect();W=r.width;H=r.height;if(!W||!H)return;cv.width=W*dpr;cv.height=H*dpr;g.setTransform(dpr,0,0,dpr,0,0);
+      P=[];var n=Math.round(W*H/200);for(var i=0;i<n;i++)P.push({x:Math.random()*W,y:Math.pow(Math.random(),1.6)*H,r:Math.random()*1.1+.25,ph:Math.random()*6.3,sp:.5+Math.random()*2.4,vx:(Math.random()-.5)*.08,vy:-(.02+Math.random()*.07),c:Math.random()<.45?'#996515':(Math.random()<.5?'#C99A52':'#D9B57A')})}
+    function f(t){if(!W){size();}g.clearRect(0,0,W,H);
+      for(var i=0;i<P.length;i++){var p=P[i];if(!reduce){p.x+=p.vx;p.y+=p.vy;if(p.y<-2){p.y=H;p.x=Math.random()*W}}
+        var a=.5+.5*Math.sin(t/1000*p.sp+p.ph);a=a*a;g.globalAlpha=a;g.fillStyle=p.c;g.beginPath();g.arc(p.x,p.y,p.r,0,6.3);g.fill();
+        if(p.r>1.05&&a>.75){g.globalAlpha=(a-.75)*2.4;g.fillRect(p.x-3.2,p.y-.25,6.4,.5);g.fillRect(p.x-.25,p.y-3.2,.5,6.4)}}
+      if(on&&!reduce)requestAnimationFrame(f)}
+    size();addEventListener('resize',size);
+    if('IntersectionObserver' in window)new IntersectionObserver(function(es){var v=es[0].isIntersecting;if(v&&!on){on=true;requestAnimationFrame(f)}else if(!v)on=false}).observe(cv);
+    else{on=true;requestAnimationFrame(f)}
+  });
 })();
 </script>
 </body>
